@@ -61,3 +61,39 @@ weather_df %>%
   facet_grid(. ~ name) # . is the placeholder
 ```
 
+```{r}
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, size = prcp)) + 
+  geom_point(alpha = .3) +
+  facet_grid(. ~ name) +
+  geom_smooth(se = FALSE) # turn standard error bars off
+```
+
+
+## Use data manipulation as part of this
+
+```{r}
+weather_df %>% 
+  filter(name == "CentralPark_NY") %>% 
+  mutate(tmin = tmax * (9 / 5) + 32,
+         tmax = tmin * (9 / 5) + 32) %>% 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point()
+```
+
+
+## Stacking geoms
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_smooth()
+```
+
+```{r}
+# show how density is in every particular point
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_hex()
+```
+
