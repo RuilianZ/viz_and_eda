@@ -20,6 +20,13 @@ library(tidyverse)
 
 ``` r
 library(ggridges)
+
+#embedded figures options
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
 ```
 
 ``` r
@@ -74,7 +81,7 @@ weather_df %>%
 
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-3-1.png" width="90%" />
 
 you can save ggplots
 
@@ -88,7 +95,7 @@ ggp_tmax_tmin
 
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
 
 ## Let’s fanxy it up
 
@@ -106,7 +113,7 @@ weather_df %>%
 
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
 
 ``` r
 weather_df %>% 
@@ -122,20 +129,20 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing missing values (geom_point).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
 
 ## Use data manipulation as part of this
 
 ``` r
 weather_df %>% 
   filter(name == "CentralPark_NY") %>% 
-  mutate(tmin = tmax * (9 / 5) + 32,
-         tmax = tmin * (9 / 5) + 32) %>% 
+  mutate(tmin = tmin * (9 / 5) + 32,
+         tmax = tmax * (9 / 5) + 32) %>% 
   ggplot(aes(x = tmin, y = tmax)) +
   geom_point()
 ```
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" />
 
 ## Stacking geoms
 
@@ -149,7 +156,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_smooth).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
 
 ``` r
 # show how density is in every particular point
@@ -160,7 +167,7 @@ weather_df %>%
 
     ## Warning: Removed 15 rows containing non-finite values (stat_binhex).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-9-1.png" width="90%" />
 
 ## Univariate plots
 
@@ -175,7 +182,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-10-1.png" width="90%" />
 
 ``` r
 weather_df %>% 
@@ -185,7 +192,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_density).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
 
 Still with `tmax` and `name`
 
@@ -197,7 +204,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_boxplot).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
 
 ``` r
 weather_df %>% 
@@ -207,7 +214,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_ydensity).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-13-1.png" width="90%" />
 
 ``` r
 # stack density plots, not totally stack
@@ -220,4 +227,16 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_density_ridges).
 
-![](viz_part1_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-14-1.png" width="90%" />
+
+\#\#Embedding plots
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = .3)
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-15-1.png" width="90%" />

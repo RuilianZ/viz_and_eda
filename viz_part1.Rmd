@@ -8,6 +8,13 @@ output: github_document
 ```{r}
 library(tidyverse)
 library(ggridges)
+
+#embedded figures options
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
 ```
 
 ```{r}
@@ -75,8 +82,8 @@ weather_df %>%
 ```{r}
 weather_df %>% 
   filter(name == "CentralPark_NY") %>% 
-  mutate(tmin = tmax * (9 / 5) + 32,
-         tmax = tmin * (9 / 5) + 32) %>% 
+  mutate(tmin = tmin * (9 / 5) + 32,
+         tmax = tmax * (9 / 5) + 32) %>% 
   ggplot(aes(x = tmin, y = tmax)) +
   geom_point()
 ```
@@ -132,5 +139,14 @@ weather_df %>%
 weather_df %>% 
   ggplot(aes(x = tmax, y = name)) +
   geom_density_ridges(alpha = .8, scale = .8)
+```
+
+
+##Embedding plots 
+
+```{r, fig.width = 12}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = .3)
 ```
 
