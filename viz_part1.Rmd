@@ -1,0 +1,12 @@
+---
+title: "viz_and_eda"
+author: "Ruilian Zhang"
+date: "10/5/2021"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+library(ggridges)
+```
+
