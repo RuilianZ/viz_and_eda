@@ -169,6 +169,22 @@ weather_df %>%
 
 <img src="viz_part1_files/figure-gfm/unnamed-chunk-9-1.png" width="90%" />
 
+``` r
+ggplot(weather_df) + geom_point(aes(x = tmax, y = tmin), color = "blue")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-10-1.png" width="90%" />
+
+``` r
+ggplot(weather_df) + geom_point(aes(x = tmax, y = tmin, color = "blue"))
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-10-2.png" width="90%" />
+
 ## Univariate plots
 
 ``` r
@@ -182,7 +198,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_bin).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-10-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
 
 ``` r
 weather_df %>% 
@@ -192,7 +208,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_density).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-11-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
 
 Still with `tmax` and `name`
 
@@ -204,7 +220,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_boxplot).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-13-1.png" width="90%" />
 
 ``` r
 weather_df %>% 
@@ -214,7 +230,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_ydensity).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-13-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-14-1.png" width="90%" />
 
 ``` r
 # stack density plots, not totally stack
@@ -227,7 +243,7 @@ weather_df %>%
 
     ## Warning: Removed 3 rows containing non-finite values (stat_density_ridges).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-14-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-15-1.png" width="90%" />
 
 \#\#Embedding plots
 
@@ -239,4 +255,4 @@ weather_df %>%
 
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
-<img src="viz_part1_files/figure-gfm/unnamed-chunk-15-1.png" width="90%" />
+<img src="viz_part1_files/figure-gfm/unnamed-chunk-16-1.png" width="90%" />
