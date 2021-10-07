@@ -124,3 +124,33 @@ weather_df %>%
   geom_point()
 ```
 
+
+
+## `patchwork`
+
+```{r}
+library(patchwork)
+
+ggp_tmax_tmin = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = .3 ) +
+  theme(legend.position = "none") # remove the legend
+
+ggp_prcp_dens =
+  weather_df %>%
+  filter(prcp > 0) %>% 
+  ggplot(aes(x = tmin, fill = name)) + 
+  geom_density(alpha = .3) +
+  theme(legend.position = "none")
+
+ggp_tmax_date = 
+  weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) + 
+  geom_point() +
+  geom_smooth() +
+  theme(legend.position = "none")
+
+(ggp_tmax_tmin + ggp_prcp_dens) / ggp_tmax_date
+```
+
