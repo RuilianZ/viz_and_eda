@@ -13,7 +13,7 @@ library(viridis)
 #embedded figures options
 knitr::opts_chunk$set(
   fig.width = 6,
-  fig.asp = .6,
+  fig.asp = .6, # the ration of height/length
   out.width = "90%"
 )
 ```
@@ -98,5 +98,29 @@ weather_df %>%
   # theme_classic()
   theme_minimal() +
   theme(legend.position = "bottom")
+```
+
+
+
+## `data` in geoms
+
+```{r}
+# sub-dataset
+central_park = 
+  weather_df %>% 
+  filter(name == "CentralPark_NY")
+
+waikiki = 
+  weather_df %>% 
+  filter(name == "Waikiki_HA")
+
+waikiki %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point() +
+  geom_line(data = central_park) # add sub-data to plot
+
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point()
 ```
 

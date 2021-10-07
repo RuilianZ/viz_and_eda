@@ -29,7 +29,7 @@ library(viridis)
 #embedded figures options
 knitr::opts_chunk$set(
   fig.width = 6,
-  fig.asp = .6,
+  fig.asp = .6, # the ration of height/length
   out.width = "90%"
 )
 ```
@@ -129,3 +129,58 @@ weather_df %>%
     ## Warning: Removed 90 rows containing missing values (geom_point).
 
 <img src="viz_part2_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
+
+## Themes
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) +
+  geom_point(alpha = .3) +
+  labs(
+    title = "Temperature",
+    x = "Minimnun daily temp (C)",
+    y = "Maximnun daily temp (C)",
+    caption = "Data from rnoaa package with three stations"
+  ) +
+  scale_color_viridis_d() +
+  # theme_bw() + # change the background to black and white
+  # theme_classic()
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+<img src="viz_part2_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+
+## `data` in geoms
+
+``` r
+# sub-dataset
+central_park = 
+  weather_df %>% 
+  filter(name == "CentralPark_NY")
+
+waikiki = 
+  weather_df %>% 
+  filter(name == "Waikiki_HA")
+
+waikiki %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point() +
+  geom_line(data = central_park) # add sub-data to plot
+```
+
+    ## Warning: Removed 3 rows containing missing values (geom_point).
+
+<img src="viz_part2_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_point()
+```
+
+    ## Warning: Removed 3 rows containing missing values (geom_point).
+
+<img src="viz_part2_files/figure-gfm/unnamed-chunk-6-2.png" width="90%" />
