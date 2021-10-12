@@ -35,3 +35,64 @@ weather_df =
   select(name, id, everything())
 ```
 
+
+## group_by()
+
+```{r}
+weather_df %>% 
+  group_by(name)
+```
+
+
+## count some things
+
+```{r}
+weather_df %>% 
+  group_by(month) %>% # a neat way
+  summarize(n_obs = n()) # how many observations in each month group
+
+weather_df %>% 
+  count(name) # a quick way
+```
+
+It's nice that this is a dataframe
+`table` doesn't, and it's bad
+
+```{r}
+weather_df %>% 
+  pull(name) %>% 
+  table()
+```
+
+```{r}
+weather_df %>% 
+  janitor::tabyl(month, name) #like a pivot_wider version
+```
+
+
+## more general summaries
+
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(
+    n_obs = n(),
+    mean_tmax = mean(tmax, na.rm = TRUE), # remove missing values
+    median_tmax = median(tmax, na.rm = TRUE),
+    sd_tmax = sd(tmax, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = month, y = mean_tmax, color = name)) +
+  geom_point() +
+  geom_line()
+```
+
+```{r}
+weather_df %>%
+  group_by(name, month) %>%
+  summarize(mean_tmax = mean(tmax)) %>% 
+  pivot_wider(
+    names_from = name,
+    values_from = mean_tmax) %>% 
+  knitr::kable(digits = 1)
+```
+
