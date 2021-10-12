@@ -1,5 +1,5 @@
 ---
-title: "viz_and_eda"
+title: "Group by and Summarize"
 author: "Ruilian Zhang"
 date: "10/5/2021"
 output: github_document
@@ -7,8 +7,6 @@ output: github_document
 
 ```{r}
 library(tidyverse)
-library(ggridges)
-library(viridis)
 
 #embedded figures options
 knitr::opts_chunk$set(
@@ -19,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-weather_df = 
+weather_df =  
   rnoaa::meteo_pull_monitors(
     c("USW00094728", "USC00519397", "USS0023B17S"),
     var = c("PRCP", "TMIN", "TMAX"), 
@@ -32,174 +30,8 @@ weather_df =
       USC00519397 = "Waikiki_HA",
       USS0023B17S = "Waterhole_WA"),
     tmin = tmin / 10,
-    tmax = tmax / 10) %>%
+    tmax = tmax / 10,
+    month = lubridate::floor_date(date, unit = "month")) %>% # create a month variable (round day down)
   select(name, id, everything())
-```
-
-
-```{r}
-weather_df %>% 
-  ggplot(aes(x = tmin, y = tmax, color = name)) +
-  geom_point(alpha = .3) +
-  labs(
-    title = "Temperature",
-    x = "Min",
-    y = "Max",
-    caption = "Data from rnoaa package with three stations"
-  )
-```
-
-
-## Scales
-
-```{r}
-weather_df %>% 
-  ggplot(aes(x = tmin, y = tmax, color = name)) +
-  geom_point(alpha = .3) +
-  labs(
-    title = "Temperature",
-    x = "Min",
-    y = "Max",
-    caption = "Data from rnoaa package with three stations"
-  ) +
-  scale_color_hue(
-    name = "Location", # name the legend
-    h = c(100, 300)) + 
-  viridis::scale_color_viridis( # viridis is a color pallette and is good
-    name = "Location", 
-    discrete = TRUE
-  ) + 
-  scale_x_continuous(
-    breaks = c(-15, 0,15),
-    labels = c("-15C", "0", "15")
-  ) + 
-  scale_y_continuous(
-    trans = "sqrt",
-    position = "right"
-  )
-
-```
-
-
-## Themes
-
-```{r}
-weather_df %>% 
-  ggplot(aes(x = tmin, y = tmax, color = name)) +
-  geom_point(alpha = .3) +
-  labs(
-    title = "Temperature",
-    x = "Minimnun daily temp (C)",
-    y = "Maximnun daily temp (C)",
-    caption = "Data from rnoaa package with three stations"
-  ) +
-  scale_color_viridis_d() +
-  # theme_bw() + # change the background to black and white
-  # theme_classic()
-  theme_minimal() +
-  theme(legend.position = "bottom")
-```
-
-
-
-## `data` in geoms
-
-```{r}
-# sub-dataset
-central_park = 
-  weather_df %>% 
-  filter(name == "CentralPark_NY")
-
-waikiki = 
-  weather_df %>% 
-  filter(name == "Waikiki_HA")
-
-waikiki %>% 
-  ggplot(aes(x = date, y = tmax, color = name)) +
-  geom_point() +
-  geom_line(data = central_park) # add sub-data to plot
-
-weather_df %>% 
-  ggplot(aes(x = date, y = tmax, color = name)) +
-  geom_point()
-```
-
-
-
-## `patchwork`
-
-```{r}
-library(patchwork)
-
-ggp_tmax_tmin = 
-  weather_df %>% 
-  ggplot(aes(x = tmin, y = tmax, color = name)) + 
-  geom_point(alpha = .3 ) +
-  theme(legend.position = "none") # remove the legend
-
-ggp_prcp_dens =
-  weather_df %>%
-  filter(prcp > 0) %>% 
-  ggplot(aes(x = tmin, fill = name)) + 
-  geom_density(alpha = .3) +
-  theme(legend.position = "none")
-
-ggp_tmax_date = 
-  weather_df %>% 
-  ggplot(aes(x = date, y = tmax, color = name)) + 
-  geom_point() +
-  geom_smooth() +
-  theme(legend.position = "none")
-
-(ggp_tmax_tmin + ggp_prcp_dens) / ggp_tmax_date
-```
-
-
-
-## data manipulation
-
-quick example on factors
-
-```{r}
-weather_df %>% 
-  mutate(
-    name = fct_reorder(name, tmax) # reorder factor variable with respect to tmax
-  ) %>% 
-  ggplot(aes(x = name, y = tmax)) +
-  geom_boxplot()
-```
-
-What about tmax and tmin
-
-```{r}
-weather_df %>% 
-  pivot_longer(
-    tmax:tmin,
-    names_to = "obs",
-    values_to = "temperature"
-  ) %>% 
-  ggplot(aes(x = temperature, fill = obs)) +
-  geom_density(alpha = .3) +
-  facet_grid(. ~ name)
-```
-
-
-```{r}
-pulse_df = 
-  haven::read_sas("data/public_pulse_data.sas7bdat") %>% 
-  janitor::clean_names() %>% 
-  pivot_longer(
-    bdi_score_bl:bdi_score_12m,
-    names_to = "visit",
-    values_to = "bdi",
-    names_prefix = "bdi_score_"
-  ) %>% 
-  mutate(visit = recode(visit, "bl" = "00m"))
-
-pulse_df %>% 
-  ggplot(aes(x = visit, y = bdi)) +
-  geom_boxplot()
-  # geom_point() +
-  # geom_line(aes(group = id, alpha = .3)) # if cares about individual trajectory of time
 ```
 
